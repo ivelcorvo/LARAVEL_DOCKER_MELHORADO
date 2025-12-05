@@ -6,7 +6,6 @@ use App\Helpers\ApiResponse;
 use App\Http\Requests\EmpresaStoreRequest;
 use App\Http\Requests\EmpresaUpdateRequest;
 use App\Models\Empresa;
-use Illuminate\Http\Request;
 
 class EmpresaController extends Controller
 {
@@ -33,13 +32,7 @@ class EmpresaController extends Controller
     {
         $empresa = Empresa::findOrFail($id);
 
-        $validated = $request->validate([
-            "descricao" => "sometimes|string|max:150",
-            "cnpj"      => "sometimes|string|size:14",
-            "uf"        => "sometimes|string|size:2"
-        ]);
-
-        $empresa->update($validated);
+        $empresa->update($request->validated());
 
         return ApiResponse::success("Empresa atualizada com sucesso!", $empresa);
     }
